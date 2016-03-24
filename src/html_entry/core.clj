@@ -6,12 +6,13 @@
 
 (boot/deftask html-entry
   "task to generate HTML"
-  [d dsl VAL edn "Hiccup style HTML DSL"]
+  [d dsl        VAL edn "Hiccup style HTML DSL"
+   n html-name  VAL str "HTML file name"]
   (let []
     (fn [next-task]
       (fn [fileset]
         (let [tmp (boot/tmp-dir!)
-              out (io/file tmp "index.html")]
+              out (io/file tmp (or html-name "index.html"))]
           (boot/empty-dir! tmp)
           (with-open [wrtr (io/writer (.getPath out))]
             (.write wrtr (html dsl)))

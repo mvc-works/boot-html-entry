@@ -21,6 +21,9 @@ In your `build.boot`:
   (html-entry :dsl (html-dsl)))
 ```
 
+* `:dsl` required, for exmaple `[:div "demo"]`
+* `:html-name` defaults to `"index.html"`
+
 ### License
 
 MIT
