@@ -18,7 +18,7 @@
        :scm         {:url "https://github.com/mvc-works/boot-html-entry"}
        :license     {"MIT" "http://opensource.org/licenses/mit-license.php"}})
 
-(task-options! push {:repo "clojars"})
+(set-env! :repositories #(conj % ["clojars" {:url "https://clojars.org/repo/"}]))
 
 (defn html-dsl "Hiccup HTML DSL" [] [:html [:div "a demo" [:text "text"]]])
 
@@ -27,7 +27,13 @@
   []
   (html-entry :dsl (html-dsl)))
 
-(deftask build
-  "Create a standalone jar file that computes fibonacci sequences."
-  []
-  (comp (aot) (pom) (uber) (jar)))
+(deftask build []
+  (comp
+   (pom)
+   (jar)
+   (install)))
+
+(deftask deploy []
+  (comp
+   (build)
+   (push :repo "clojars" :gpg-sign (not (.endsWith +version+ "-SNAPSHOT")))))
